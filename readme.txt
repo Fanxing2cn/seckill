@@ -115,4 +115,18 @@
  官网查询
  http://www.mybatis.org/mybatis-3/zh/getting-started.html
  
+8. spring+ mybatis 整合，让你不用写实现类 ，爽
+        写spring-dao.xml
+        
+9.写 junit 测试 dao 接口
+    测试Seckill queryById(long seckillId) 方法是正常
+ 
+    测试 下面方法是报错，原因是java编译器   queryAll(arg0,arg1) 会搞不清哪个参数是哪个了 
+  List<Seckill> queryAll(int offset,int limit);
+  
+      加上注解就没有坑了
+  List<Seckill> queryAll(@Param("offset") int offset,@Param("limit") int limit);
+  
+   
+ 
     

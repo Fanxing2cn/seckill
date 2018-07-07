@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:context="http://www.springframework.org/schema/context"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/context
+ http://www.springframework.org/schema/context/spring-context.xsd">
+ 
+ <!-- 配置整合 mybatis 过程 -->
+  <context:property-placeholder location="classpath:jdbc.properties"/>
+  
+  <!-- 数据库连接池 -->
+  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+  		 <!-- 数据库连接相关信息 -->
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="driverClass" value="${jdbc.driverClass}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!-- c3p0连接池属性 -->
+        <property name="maxPoolSize" value="30"/>
+        <property name="minPoolSize" value="10"/>
+        <property name="autoCommitOnClose" value="false"/>
+  </bean>
+ 
+  <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 注入连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 配置mybatis 全局配置文件 mybatis-config.xml -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!-- 扫描entity  -->
+        <property name="typeAliasesPackage" value="seckill.entity" />
+        <!-- 扫描 mapper   -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml" />
+  </bean>
+  
+  <!-- 配置扫描dao 接口包，动态实现DAO 接口，注入spring 容器 -->
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+  	 <!-- 注入 sessionFactory -->
+   	 <property name="sqlSessionFactoryBeanName" value="sessionFactory" />
+   	 <!-- 给出扫描dao 接口包 -->
+   	 <property name="basePackage" value="seckill.dao" />
+  </bean>
+</beans>
