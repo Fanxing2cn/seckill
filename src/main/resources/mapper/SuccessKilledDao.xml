@@ -6,12 +6,12 @@
 <mapper namespace="seckill.dao.SuccessKilledDao">
 	<!-- 主键冲突，报错  -->
 	<insert id="insertSuccessKilled">
-		insert ignore into success_kill(seckill_id,user_phone,state)
+		insert ignore into success_killed(seckill_id,user_phone,state)
 		values(#{seckillId},#{userPhone},0)
 	</insert>
 	
 	<!-- 用别名来映射到 seckill对象的属性里 -->
-	<select id="queryByIdWithSeckill">
+	<select id="queryByIdWithSeckill" resultType="SuccessKilled" >
 	   select 
 	      sk.seckill_id,
 	      sk.user_phone,
@@ -25,6 +25,6 @@
 	      s.create_time  "seckill.create_time"
 	   from success_killed sk
 	   inner join seckill s on sk.seckill_id =s.seckill_id 
-	   where sk.seckill_id =#{seckillId}
+	   where sk.seckill_id =#{seckillId} and sk.user_phone=#{userPhone}
 	</select>
 </mapper>

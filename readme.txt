@@ -127,6 +127,11 @@
       加上注解就没有坑了
   List<Seckill> queryAll(@Param("offset") int offset,@Param("limit") int limit);
   
-   
+  DAO 接口里方法，返回值是对象的，一定要设置resultType ,例如
+  <select id="queryById" resultType="Seckill" parameterType="long">
+		select * from seckill where seckill_id = #{seckillId}
+	</select>
+  
+  
  
     

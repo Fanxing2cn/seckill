@@ -2,6 +2,7 @@ package seckill.dao;
 
 import static org.junit.Assert.*;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -27,7 +28,8 @@ public class SeckillDaoTest {
 	
 	@Test
 	public void testReduceNumber() {
-		
+		int ok= seckillDao.reduceNumber(1000L, new Date());
+		System.out.println(ok);
 	}
 
 	@Test
