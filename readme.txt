@@ -132,6 +132,7 @@
 		select * from seckill where seckill_id = #{seckillId}
 	</select>
   
+  10.开始构建服务层     service包，exception,dto等
   
  
     
