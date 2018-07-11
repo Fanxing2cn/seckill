@@ -3,7 +3,11 @@ package seckill.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.log4j.spi.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import seckill.dao.SeckillDao;
@@ -17,12 +21,15 @@ import seckill.exception.SeckillCloseException;
 import seckill.exception.SeckillException;
 import seckill.service.SeckillService;
 
+@Service
 public class SeckillServiceImpl implements SeckillService {
 
+	@Resource
 	private SeckillDao seckillDao;
+	@Resource
 	private SuccessKilledDao successKilledDao;
-	//混淆器
-	private final String mix="asdjfaklsj12312^%&^%&123+_)(";
+	// 混淆器
+	private final String mix = "asdjfaklsj12312^%&^%&123+_)(";
 
 	@Override
 	public List<Seckill> getSeckillList() {
@@ -47,47 +54,47 @@ public class SeckillServiceImpl implements SeckillService {
 		if (now < startTime || now > endTime) {
 			return new Exposer(false, seckillId, now, startTime, endTime);
 		}
-		
-		String md5=getMD5(seckillId) ; 
-		return new Exposer(true,md5,seckillId);
+
+		String md5 = getMD5(seckillId);
+		return new Exposer(true, md5, seckillId);
 	}
-	
-	//算MD5 
-	private String getMD5(long seckillId){
-		String base = seckillId + "/" +mix;
+
+	// 算MD5
+	private String getMD5(long seckillId) {
+		String base = seckillId + "/" + mix;
 		String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
 		return md5;
 	}
 
 	@Override
-	public SeckillExecution executeSeckill(long seckillId, String userPhone, String md5) 
-	 	throws SeckillException,RepeatKillException,SeckillCloseException{
+	@Transactional
+	/**
+	 * 注解来控制事务方法
+	 */
+	public SeckillExecution executeSeckill(long seckillId, String userPhone, String md5)
+			throws SeckillException, RepeatKillException, SeckillCloseException {
 		if (md5 == null || !md5.equals(getMD5(seckillId))) {
 			throw new SeckillException("秒杀数据被串改...error");
 		}
-		
-		try {
-			//秒杀逻辑 减库存 + 记录购买记录
-			int n= seckillDao.reduceNumber(seckillId, new Date());
-			if (n<=0) {
-				//没有更新
-				throw new SeckillCloseException("秒杀结束了");
-			}else{
-				//记录购买记录
-				int insertn= successKilledDao.insertSuccessKilled(seckillId, userPhone);
-				if (insertn <=0) {
-					throw new RepeatKillException("重复秒杀");
-				}else{
-					//秒杀成功
-					SuccessKilled sk= successKilledDao.queryByIdWithSeckill(seckillId, userPhone);
-					return new SeckillExecution(seckillId,1,"秒杀成功",sk);
-				}
-				
+
+		// 秒杀逻辑 减库存 + 记录购买记录
+		int n = seckillDao.reduceNumber(seckillId, new Date());
+		if (n <= 0) {
+			// 没有更新
+			throw new SeckillCloseException("秒杀结束了");
+		} else {
+			// 记录购买记录
+			int insertn = successKilledDao.insertSuccessKilled(seckillId, userPhone);
+			if (insertn <= 0) {
+				throw new RepeatKillException("重复秒杀");
+			} else {
+				// 秒杀成功
+				SuccessKilled sk = successKilledDao.queryByIdWithSeckill(seckillId, userPhone);
+				return new SeckillExecution(seckillId, 1, "秒杀成功", sk);
 			}
-		} catch (Exception e) {
-			throw new SeckillException("seckill inner error"+e.getMessage());
+
 		}
-		
+
 	}
 
 }

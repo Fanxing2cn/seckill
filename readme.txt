@@ -1,6 +1,6 @@
 《JAVA高并发-秒杀商品》 项目中使用了流行的框架组合SpringMVC+Spring+MyBatis
  
-1. 创建maven  web项目   项目采用 springmvc + spring + hibernate框架
+1. 创建maven  web项目   项目采用 springmvc + spring + MyBatis框架
 
 2. 
          设置 servlet3.0  web.xml   2.3默认关闭el
@@ -134,5 +134,7 @@
   
   10.开始构建服务层     service包，exception,dto等
   
- 
+ 11. spring ioc service层 依赖管理
+   spring-service.xml
+   
     
