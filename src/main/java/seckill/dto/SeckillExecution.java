@@ -10,7 +10,7 @@ import seckill.entity.SuccessKilled;
 public class SeckillExecution {
 	private long seckillId;
 	
-	//秒杀结果状态
+	//秒杀结果状态   1成功
 	private int state;
 	//状态表示
 	private String stateInfo;	
