@@ -31,7 +31,7 @@
         <!-- 扫描entity  -->
         <property name="typeAliasesPackage" value="seckill.entity" />
         <!-- 扫描 mapper   -->
-        <property name="mapperLocations" value="classpath:mapper/*.xml" />
+        <property name="mapperLocations" value="classpath:seckill/dao/*.xml" />
   </bean>
   
   <!-- 配置扫描dao 接口包，动态实现DAO 接口，注入spring 容器 -->

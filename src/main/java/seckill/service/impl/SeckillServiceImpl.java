@@ -89,7 +89,7 @@ public class SeckillServiceImpl implements SeckillService {
 				throw new RepeatKillException("重复秒杀");
 			} else {
 				// 秒杀成功
-				SuccessKilled sk = successKilledDao.queryByIdWithSeckill(seckillId, userPhone);
+				SuccessKilled sk = successKilledDao.queryByIdPhone(seckillId, userPhone);
 				return new SeckillExecution(seckillId, 1, "秒杀成功", sk);
 			}
 

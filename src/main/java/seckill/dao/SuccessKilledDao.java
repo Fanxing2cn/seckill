@@ -11,5 +11,5 @@ public interface SuccessKilledDao {
 	 */
 	int insertSuccessKilled(@Param("seckillId") long seckillId,@Param("userPhone") String userPhone);
 	
-	SuccessKilled queryByIdWithSeckill(@Param("seckillId") long seckillId,@Param("userPhone") String userPhone);
+	SuccessKilled queryByIdPhone(@Param("seckillId") long seckillId,@Param("userPhone") String userPhone);
 }

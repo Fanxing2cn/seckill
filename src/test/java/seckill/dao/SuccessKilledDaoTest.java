@@ -31,7 +31,7 @@ public class SuccessKilledDaoTest {
 	public void testQueryByIdWithSeckill() {
 		long id=1000L;
 		String phone="13588779900";
-		SuccessKilled sk= successKilledDao.queryByIdWithSeckill(id, phone);
+		SuccessKilled sk= successKilledDao.queryByIdPhone(id, phone);
 		System.out.println(sk);
 		System.out.println(sk.getSeckill());
 	}

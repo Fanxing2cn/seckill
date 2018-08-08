@@ -36,7 +36,7 @@ public class SeckillServiceTest {
 
 	@Test
 	public void testExportSeckillUrl() {
-		long id=1001L;
+		long id=1001;
 		Exposer exposer= seckillService.exportSeckillUrl(id);
 		System.out.println(exposer);
 		
@@ -51,7 +51,7 @@ public class SeckillServiceTest {
 	public void testExecuteSeckill() {
 		long id=1001;
 		String phone="15570768080";
-		String md5="a4f81d6d759979da1f6e10b645bae091";
+		String md5="4da9706236f3c011c91ae13330b774a5";
 		SeckillExecution se= seckillService.executeSeckill(id, phone, md5);
 		System.out.println(se);
 	}
